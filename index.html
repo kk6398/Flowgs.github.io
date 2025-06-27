@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="FlowGS: End-to-End Correspondence-Guided 3D Gaussian Splatting from Sparse Unposed Images">
+  <meta name="keywords" content="E2E, 3DGS">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FLOWGS</title>
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-PYVRSFMDRL');
+  </script>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/images/favicon.svg">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+</head>
+<body>
+
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+  <div class="navbar-menu">
+    <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
+      <a class="navbar-item" href="https://keunhong.com">
+      <span class="icon">
+          <i class="fas fa-home"></i>
+      </span>
+      </a>
+
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">
+          More Research
+        </a>
+        <div class="navbar-dropdown">
+          <a class="navbar-item" href="https://hypernerf.github.io">
+            HyperNeRF
+          </a>
+          <a class="navbar-item" href="https://nerfies.github.io">
+            Nerfies
+          </a>
+          <a class="navbar-item" href="https://latentfusion.github.io">
+            LatentFusion
+          </a>
+          <a class="navbar-item" href="https://photoshape.github.io">
+            PhotoShape
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</nav>
+
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">FlowGS: End-to-End Correspondence-Guided 3D Gaussian Splatting from Sparse Unposed Images</h1>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="https://keunhong.com">Anonymous </a></sup></span>
+            <span class="author-block">
+              
+          </div>
+
+          
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- PDF Link. -->
+              <span class="link-block">
+                <a href=""
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span>
+              
+              <!-- Code Link. -->
+              <span class="link-block">
+                <a href=""
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code</span>
+                  </a>
+              </span>
+              
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+<section class="static-image-section">
+  <img src="./static/images/flowgs.jpg" alt="FLOWGS NVS Output">
+</section>
+
+<style>
+  .static-image-section img {
+    width: 100%;
+    max-width: 800px;
+    display: block;
+    margin: 0 auto;
+  }
+</style>
+
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            Although radiance fields represented by 3D Gaussians with sparse input view have achieved remarkable success in novel view synthesis, 
+            it still requires initialization through Structure from Motion (SfM) and is essentially a sequential two-stage task. 
+            Recent methods solve this problem in a SfM-independent manner, 
+            concentrating on optimizing camera poses, yet they still require known intrinsics as input.
+          </p>
+          <p>
+            In this study, we introduce FlowGS, 
+            an end-to-end correspondence-guided sparse 3D Gaussian Splatting (3DGS) method that enables realistic scene reconstruction from uncalibrated and unposed images. 
+            FlowGS achieves the simultaneous optimization of intrinsics, poses, depths, and Gaussian parameters by integrating optical flow with 3DGS. 
+            Furthermore, we design a Multi-Gaussian Guided Depth strategy to address the excessive smoothing depth at object edges caused by depth convolutional neural networks. Additionally, we observe that sparse views characterized by limited overlap cause optical flow mismatches, consequently generating the erroneous rendering of 3D points at infinite distances. To tackle this issue, we propose a Sphere Projection method to map these irrelevant points onto nearby spherical surfaces. The experimental results on the Tanks and Temples and Static Hikes datasets demonstrate that our methodology achieves competitive performance against state-of-the-art approaches.
+          </p>
+        </div>
+      </div>
+    </div>
+    <!--/ Abstract. -->
+
+    
+  </div>
+</section>
+
+
+
+
+
+
+<section class="tt_family">
+  <div class="container is-max-desktop">
+    <div class="videos-container"> <!-- 新增容器包裹三个视频 -->
+      <div class="tt_family_3">
+        <video autoplay muted loop playsinline height="100%">
+          <source src="./static/videos/family3_264.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="tt_family_6">
+        <video autoplay muted loop playsinline height="100%">
+          <source src="./static/videos/family6_264.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="tt_family_12">
+        <video autoplay muted loop playsinline height="100%">
+          <source src="./static/videos/family12_264.mp4" type="video/mp4">
+        </video>
+      </div>
+    </div>
+    
+    <!-- 将标题移到所有视频下方 -->
+    <h2 class="subtitle has-text-centered">
+      <span class="dnerf">FLOWGS</span>: turns output NVS under the 3, 6, 12 views 
+      on the Family scene of Tanks and Temples.
+    </h2>
+  </div>
+</section>
+
+<style>
+  /* 添加水平排列样式 */
+  .videos-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem; /* 视频之间的间隔 */
+  }
+  
+  .tt_family_3,
+  .tt_family_6,
+  .tt_family_12 {
+    flex: 1; /* 均等分配宽度 */
+    min-width: 40%; /* 确保最小宽度 */
+  }
+  
+  /* 确保视频响应式 */
+  .tt_family_3 video,
+  .tt_family_6 video,
+  .tt_family_12 video {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+</style>
+
+
+
+
+
+
+<section class="hero is-light is-small">
+  <div class="hero-body">
+    <div class="container">
+      <div id="results-carousel" class="carousel results-carousel">
+        <div class="item item-steve">
+          <video poster="" id="steve" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/horse12_264.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-chair-tp">
+          <video poster="" id="chair-tp" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/barn12_264.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-shiba">
+          <video poster="" id="shiba" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/university3_12_fps10_264.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-fullbody">
+          <video poster="" id="fullbody" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/playground12_fps10_264.mp4"
+                    type="video/mp4">
+          </video>
+        
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+<section class="static-image-section">
+  <img src="./static/images/tt_compare.jpg" alt="FLOWGS NVS Output">
+  <h2 class="subtitle has-text-centered">
+      <span class="dnerf"></span> Qualitative Comparisons on Tanks and Temples. 
+   </h2>
+</section>
+
+<style>
+  .static-image-section img {
+    width: 100%;
+    max-width: 800px;
+    display: block;
+    margin: 0 auto;
+  }
+</style>
+
+
+
+
+<section class="static-image-section">
+  <img src="./static/images/sh_compare.jpg" alt="FLOWGS NVS Output">
+  <h2 class="subtitle has-text-centered">
+      <span class="dnerf"></span> Qualitative Comparisons on Static Hikes. 
+   </h2>
+</section>
+
+<style>
+  .static-image-section img {
+    width: 100%;
+    max-width: 1000px;
+    display: block;
+    margin: 0 auto;
+  }
+</style>
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+      <a class="icon-link"
+         href="./static/videos/nerfies_paper.pdf">
+        <i class="fas fa-file-pdf"></i>
+      </a>
+      <a class="icon-link" href="https://github.com/keunhong" class="external-link" disabled>
+        <i class="fab fa-github"></i>
+      </a>
+    </div>
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            This website is licensed under a <a rel="license"
+                                                href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
+            Commons Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+          <p>
+            This means you are free to borrow the <a
+              href="https://github.com/nerfies/nerfies.github.io">source code</a> of this website,
+            we just ask that you link back to this page in the footer.
+            Please remember to remove the analytics code included in the header of the website which
+            you do not want on your website.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
